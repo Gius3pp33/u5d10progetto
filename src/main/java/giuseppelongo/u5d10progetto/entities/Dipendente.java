@@ -32,4 +32,6 @@ public class Dipendente {
         this.email = email;
         this.avatarURL = avatarURL;
     }
+
+
 }
