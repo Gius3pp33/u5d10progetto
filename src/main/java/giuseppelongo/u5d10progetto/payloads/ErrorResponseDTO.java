@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Getter
 public class ErrorResponseDTO {
 
-    // Getters
+  
     private String message;
     private LocalDateTime timestamp;
 
