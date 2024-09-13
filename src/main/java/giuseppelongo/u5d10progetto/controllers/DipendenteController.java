@@ -60,11 +60,10 @@ public class DipendenteController {
     }
 
     // POST: immagine
-    @PostMapping("/{id}/upload-avatar")
+    @PostMapping("/{id}/avatar")
     public ResponseEntity<String> uploadAvatar(@PathVariable UUID id, @RequestParam("file") MultipartFile file) {
         try {
             String url = dipendenteService.uploadImage(file);
-            // Dopo aver caricato l'immagine, potresti voler aggiornare l'avatar del dipendente
             Dipendente dipendente = dipendenteService.findById(id);
             dipendente.setAvatarURL(url);
             dipendenteService.findByIdAndUpdate(id, dipendente);

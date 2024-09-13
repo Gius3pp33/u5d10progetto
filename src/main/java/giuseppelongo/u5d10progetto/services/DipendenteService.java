@@ -28,7 +28,6 @@ public class DipendenteService {
 
 
     public Dipendente save(NewDipendenteDTO dipendenteDTO) {
-        // Verifica se l'email è già stata utilizzata
         this.dipendenteRepository.findByEmail(dipendenteDTO.email()).ifPresent(
                 dipendente -> {
                     throw new BadRequestException("L'email " + dipendenteDTO.email() + " è già in uso!");

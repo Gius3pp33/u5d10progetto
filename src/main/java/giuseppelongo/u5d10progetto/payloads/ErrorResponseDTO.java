@@ -1,9 +1,13 @@
 package giuseppelongo.u5d10progetto.payloads;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
 public class ErrorResponseDTO {
 
+    // Getters
     private String message;
     private LocalDateTime timestamp;
 
@@ -12,12 +16,4 @@ public class ErrorResponseDTO {
         this.timestamp = timestamp;
     }
 
-    // Getters
-    public String getMessage() {
-        return message;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
 }
