@@ -16,27 +16,32 @@ public class PrenotazioneController {
     @Autowired
     private PrenotazioneService prenotazioneService;
 
+    //GET
     @GetMapping
     public List<Prenotazione> getAllPrenotazioni() {
         return prenotazioneService.getPrenotazioni();
     }
 
+    //GET + id
     @GetMapping("/{id}")
     public Prenotazione getPrenotazioneById(@PathVariable UUID id) {
         return prenotazioneService.getPrenotazioneById(id);
     }
 
+    //POST
     @PostMapping
     public ResponseEntity<Prenotazione> creaPrenotazione(@RequestBody Prenotazione prenotazione) {
         Prenotazione nuovaPrenotazione = prenotazioneService.creaPrenotazione(prenotazione);
         return ResponseEntity.ok(nuovaPrenotazione);
     }
 
+    // PUT
     @PutMapping("/{id}")
     public Prenotazione aggiornaPrenotazione(@PathVariable UUID id, @RequestBody Prenotazione prenotazione) {
         return prenotazioneService.aggiornaPrenotazione(id, prenotazione);
     }
 
+    //DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<String> cancellaPrenotazione(@PathVariable UUID id) {
         prenotazioneService.cancellaPrenotazione(id);
