@@ -40,6 +40,7 @@ public class DipendenteService {
                 dipendenteDTO.name(),
                 dipendenteDTO.surname(),
                 dipendenteDTO.email(),
+                dipendenteDTO.password(),
                 "https://ui-avatars.com/api/?name=" + dipendenteDTO.name() + "+" + dipendenteDTO.surname()
         );
 
@@ -94,5 +95,9 @@ public class DipendenteService {
         System.out.println("URL Avatar Caricato: " + url);
 
         return url;
+    }
+
+    public Dipendente findByEmail(String email) {
+        return dipendenteRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Il'dipendente con l'email" + email + " non è stato trovato!"));
     }
 }

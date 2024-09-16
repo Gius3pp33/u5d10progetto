@@ -18,6 +18,12 @@ public class ExceptionsHandler {
         return new ErrorResponseDTO(ex.getMessage(), LocalDateTime.now());
     }
 
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED) // Stato 401
+    public ErrorResponseDTO handleUnauthorized(UnauthorizedException ex) {
+        return new ErrorResponseDTO(ex.getMessage(), LocalDateTime.now());
+    }
+
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND) // Stato 404

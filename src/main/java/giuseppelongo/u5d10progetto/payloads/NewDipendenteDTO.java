@@ -5,6 +5,8 @@ public record NewDipendenteDTO(
         String name,
         String surname,
         String email,
-        String avatar
+        String avatar,
+        String password
 ) {
+
 }

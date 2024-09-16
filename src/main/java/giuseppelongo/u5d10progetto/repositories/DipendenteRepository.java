@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface DipendenteRepository extends JpaRepository<Dipendente, UUID> {
     Optional<Dipendente> findByEmail(String email);
+
+    boolean existsByEmail(String email);
 }
