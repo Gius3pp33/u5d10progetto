@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,13 +24,31 @@ public class DipendenteController {
 
     // GET
     @GetMapping
-    public ResponseEntity<Page<Dipendente>> getAllDipendenti(
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Page<Dipendente> getAllDipendenti(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "nome") String sortBy) {
-        Page<Dipendente> dipendenti = dipendenteService.findAll(page, size, sortBy);
-        return new ResponseEntity<>(dipendenti, HttpStatus.OK);
+        return this.dipendenteService.findAll(page, size, sortBy);
     }
+
+    @GetMapping("/me")
+    public Dipendente getProfile(@AuthenticationPrincipal Dipendente currentAuthenticatedDipendente) {
+        // Tramite @AuthenticationPrincipal posso accedere ai dati dell'utente che sta effettuando la richiesta
+        return currentAuthenticatedDipendente;
+    }
+
+    @PutMapping("/me")
+    public Dipendente updateProfile(@AuthenticationPrincipal Dipendente currentAuthenticatedUser, @RequestBody Dipendente body) {
+        return this.dipendenteService.findByIdAndUpdate(currentAuthenticatedUser.getId(), body);
+    }
+
+    @DeleteMapping("/me")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProfile(@AuthenticationPrincipal Dipendente currentAuthenticatedDipendente) {
+        this.dipendenteService.findByIdAndDelete(currentAuthenticatedDipendente.getId());
+    }
+
 
     // GET + id
     @GetMapping("/{id}")
@@ -46,6 +66,7 @@ public class DipendenteController {
 
     // PUT
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Dipendente> updateDipendente(
             @PathVariable UUID id, @RequestBody Dipendente updatedDipendente) {
         Dipendente updated = dipendenteService.findByIdAndUpdate(id, updatedDipendente);
@@ -54,6 +75,7 @@ public class DipendenteController {
 
     // DELETE
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> deleteDipendente(@PathVariable UUID id) {
         dipendenteService.findByIdAndDelete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

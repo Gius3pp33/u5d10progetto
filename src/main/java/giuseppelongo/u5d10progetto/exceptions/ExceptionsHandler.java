@@ -2,6 +2,7 @@ package giuseppelongo.u5d10progetto.exceptions;
 
 import giuseppelongo.u5d10progetto.payloads.ErrorResponseDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -22,6 +23,13 @@ public class ExceptionsHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED) // Stato 401
     public ErrorResponseDTO handleUnauthorized(UnauthorizedException ex) {
         return new ErrorResponseDTO(ex.getMessage(), LocalDateTime.now());
+
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN) // 403
+    public ErrorResponseDTO handleForbidden(AuthorizationDeniedException ex) {
+        return new ErrorResponseDTO("Non hai i permessi per accedere", LocalDateTime.now());
     }
 
 
